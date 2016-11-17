@@ -1,0 +1,24 @@
+{
+  "name": "scotch-angular-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leolassence/scotch-angular-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leolassence/scotch-angular-app/issues"
+  },
+  "homepage": "https://github.com/leolassence/scotch-angular-app#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-material": "^1.1.1",
+    "mdi": "^1.7.22"
+  }
+}
