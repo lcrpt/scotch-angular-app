@@ -3,14 +3,14 @@
 
   angular
     .module('ngClassifieds')
-    .controller('classifiedsCtrl', ($scope, $http) => {
+    .controller('classifiedsCtrl', ($scope, $http, classifiedsFactory) => {
 
-      $http.get('../data/classifieds.json')
-      .then((classifieds) => {
-        $scope.classifieds = classifieds.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      classifiedsFactory.getClassifieds()
+        .then((classifieds) => {
+          $scope.classifieds = classifieds.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     });
 })();
