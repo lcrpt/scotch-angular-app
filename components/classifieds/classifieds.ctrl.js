@@ -5,7 +5,6 @@ angular
   .controller('classifiedsCtrl', function($scope, $http, $state, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) {
     const vm = this;
     vm.openSidebar = openSidebar;
-    vm.saveClassified = saveClassified;
     vm.editClassified = editClassified;
     vm.saveEdit = saveEdit;
     vm.deleteClassified = deleteClassified;
@@ -40,25 +39,15 @@ angular
       );
     }
 
-    const contact = {
-      name: 'John Doe',
-      phone: '(555) 555-5555',
-      email: 'johndoe@gmail.com',
-    }
-
     function openSidebar() {
       $state.go('classifieds.new');
     }
 
-    function saveClassified(classified) {
-      if (classified) {
-        classified.contact = contact;
-        vm.classifieds.push(classified);
-        vm.classified = {};
-        closeSidebar();
-        showToast('Classified saved');
-      }
-    }
+    $scope.$on('newClassified', (event, classified) => {
+      classified.id = vm.classifieds.lenth + 1;
+      vm.classifieds.push(classified);
+      showToast('New classified saved');
+    });
 
     function editClassified(classified) {
       vm.editing = true;

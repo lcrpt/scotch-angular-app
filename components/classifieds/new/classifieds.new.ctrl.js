@@ -6,6 +6,7 @@ angular
     const vm = this;
 
     vm.closeSidebar = closeSidebar;
+    vm.saveClassified = saveClassified;
 
     $timeout(() => {
       $mdSidenav('left').open();
@@ -20,6 +21,19 @@ angular
           });
       }
     });
+
+    function saveClassified(classified) {
+      if (classified) {
+        classified.contact = {
+          name: 'John Doe',
+          phone: '(555) 555-5555',
+          email: 'johndoe@gmail.com',
+        }
+
+        $scope.$emit('newClassified', classified);
+        vm.sidenavOpen = false;
+      }
+    }
 
     function closeSidebar() {
       vm.sidenavOpen = false;
