@@ -1,16 +1,19 @@
-(function() {
+(() => {
   "use strict";
 
   angular
-    .module('ngClassifieds', ['ngMaterial'])
-    .config(function($mdThemingProvider) {
-      $mdThemingProvider.theme('default')
+    .module('ngClassifieds', ['ngMaterial', 'ui.router'])
+    .config(($mdThemingProvider, $stateProvider) => {
+      $mdThemingProvider
+        .theme('default')
         .primaryPalette('teal')
         .accentPalette('orange');
-    })
-    .directive('helloWorld', function() {
-      return {
-        template: "<h1>{{message.message}}</h1>",
-      };
+
+      $stateProvider
+        .state('classifieds', {
+          url: '/classifieds',
+          templateUrl: '../components/classifieds/classifieds.tpl.html',
+          controller: 'classifiedsCtrl as vm',
+        })
     })
 })();

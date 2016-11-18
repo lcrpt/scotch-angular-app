@@ -1,87 +1,93 @@
-(() => {
-  'use strict';
+'use strict';
 
-  angular
-    .module('ngClassifieds')
-    .controller('classifiedsCtrl', ($scope, $http, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) => {
+angular
+  .module('ngClassifieds')
+  .controller('classifiedsCtrl', function($scope, $http, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) {
+    const vm = this;
+    vm.openSidebar = openSidebar;
+    vm.closeSidebar = closeSidebar;
+    vm.saveClassified = saveClassified;
+    vm.editClassified = editClassified;
+    vm.saveEdit = saveEdit;
+    vm.deleteClassified = deleteClassified;
+    vm.classifieds;
+    vm.categories;
+    vm.editing
+    vm.classified
 
-      classifiedsFactory.getClassifieds().then((classifieds) => {
-        $scope.classifieds = classifieds.data;
-        $scope.categories = getCategories($scope.classifieds);
+    classifiedsFactory.getClassifieds().then((classifieds) => {
+      vm.classifieds = classifieds.data;
+      vm.categories = getCategories(vm.classifieds);
+    });
+
+    const getCategories = (classifieds) => {
+      let categories = [];
+
+      angular.forEach(classifieds, (item) => {
+        angular.forEach(item.categories, (category) => {
+          categories.push(category);
+        });
       });
 
-      const getCategories = (classifieds) => {
-        let categories = [];
+      return _.uniq(categories);
+    }
 
-        angular.forEach(classifieds, (item) => {
-          angular.forEach(item.categories, (category) => {
-            categories.push(category);
-          });
-        });
+    const showToast = (message) => {
+      $mdToast.show(
+        $mdToast.simple()
+        .content(message)
+        .position('top, right')
+        .hideDelay(3000)
+      );
+    }
 
-        return _.uniq(categories);
+    const contact = {
+      name: 'John Doe',
+      phone: '(555) 555-5555',
+      email: 'johndoe@gmail.com',
+    }
+
+    function openSidebar() {
+      return $mdSidenav('left').open();
+    }
+
+    function closeSidebar() {
+      return $mdSidenav('left').close();
+    }
+
+    function saveClassified(classified) {
+      if (classified) {
+        classified.contact = contact;
+        vm.classifieds.push(classified);
+        vm.classified = {};
+        closeSidebar();
+        showToast('Classified saved');
       }
+    }
 
-      $scope.openSidebar = () => $mdSidenav('left').open();
-      $scope.closeSidebar = () => $mdSidenav('left').close();
+    function editClassified(classified) {
+      vm.editing = true;
+      openSidebar();
+      vm.classified = classified;
+    }
 
-      const showToast = (message) => {
-        $mdToast.show(
-          $mdToast.simple()
-          .content(message)
-          .position('top, right')
-          .hideDelay(3000)
-        );
-      }
+    function saveEdit () {
+      closeSidebar();
+      vm.editing = false;
+      vm.classified = {};
+      showToast('Classified edited');
+    }
 
-      const contact = {
-        name: 'John Doe',
-        phone: '(555) 555-5555',
-        email: 'johndoe@gmail.com',
-      }
+    function deleteClassified(event, classified) {
+      const confirm = $mdDialog.confirm()
+        .title(`Are you sure you want to delete ${classified.title} ?`)
+        .ok('yes')
+        .cancel('No')
+        .targetEvent(event);
 
-      $scope.saveClassified = (classified) => {
-        if (classified) {
-          classified.contact = contact;
-          $scope.classifieds.push(classified);
-          $scope.classified = {};
-          $scope.closeSidebar();
-          showToast('Classified saved');
-        }
-      }
-
-      $scope.editClassified = (classified) => {
-        $scope.editing = true;
-        $scope.openSidebar();
-        $scope.classified = classified;
-      }
-
-      $scope.saveEdit = () => {
-        $scope.closeSidebar();
-        $scope.editing = false;
-        $scope.classified = {};
-        showToast('Classified edited');
-      }
-
-      $scope.deleteClassified = (event, classified) => {
-        const confirm = $mdDialog.confirm()
-          .title(`Are you sure you want to delete ${classified.title} ?`)
-          .ok('yes')
-          .cancel('No')
-          .targetEvent(event);
-
-        $mdDialog.show(confirm).then(() => {
-          const index = $scope.classifieds.indexOf(classified);
-          $scope.classifieds.splice(index, 1);
-        })
-      }
-  });
-})();
-
-
-
-
-
-
-
-//
+      $mdDialog.show(confirm).then(() => {
+        const index = vm.indexOf(classified);
+        vm.classifieds.splice(index, 1);
+      })
+    }
+});
