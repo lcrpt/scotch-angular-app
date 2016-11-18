@@ -6,12 +6,7 @@ angular
     const vm = this;
     vm.openSidebar = openSidebar;
     vm.editClassified = editClassified;
-    vm.saveEdit = saveEdit;
     vm.deleteClassified = deleteClassified;
-    vm.classifieds;
-    vm.categories;
-    vm.editing
-    vm.classified
 
     classifiedsFactory.getClassifieds().then((classifieds) => {
       vm.classifieds = classifieds.data;
@@ -49,17 +44,12 @@ angular
       showToast('New classified saved');
     });
 
-    function editClassified(classified) {
-      vm.editing = true;
-      openSidebar();
-      vm.classified = classified;
-    }
+    $scope.$on('editSaved', (event, message) => {
+      showToast(message);
+    })
 
-    function saveEdit () {
-      closeSidebar();
-      vm.editing = false;
-      vm.classified = {};
-      showToast('Classified edited');
+    function editClassified(classified) {
+      $state.go('classifieds.edit', { id: classified.id, classified: classified });
     }
 
     function deleteClassified(event, classified) {
@@ -70,7 +60,7 @@ angular
         .targetEvent(event);
 
       $mdDialog.show(confirm).then(() => {
-        const index = vm.indexOf(classified);
+        const index = vm.classifieds.indexOf(classified);
         vm.classifieds.splice(index, 1);
       })
     }

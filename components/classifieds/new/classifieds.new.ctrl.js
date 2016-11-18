@@ -4,7 +4,6 @@ angular
   .module('ngClassifieds')
   .controller('newClassifiedsCtrl', function($scope, $state, $mdSidenav, $timeout) {
     const vm = this;
-
     vm.closeSidebar = closeSidebar;
     vm.saveClassified = saveClassified;
 
