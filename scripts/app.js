@@ -15,5 +15,10 @@
           templateUrl: '../components/classifieds/classifieds.tpl.html',
           controller: 'classifiedsCtrl as vm',
         })
+        .state('classifieds.new', {
+          url: '/new',
+          templateUrl: '../components/classifieds/new/classifieds.new.tpl.html',
+          controller: 'newClassifiedsCtrl as vm',
+        })
     })
 })();
