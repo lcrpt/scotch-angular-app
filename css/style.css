@@ -8,21 +8,17 @@ md-icon {
   height: auto;
 }
 
-.filters md-input-container {
-  margin-right: 10px;
-}
-
 .classified.ng-enter, .classified.ng-move {
-  transition: 0.4s all;
+  transition: 0.6s all;
   opacity: 0;
 }
 
-.classified.ng-enter.ng-enter-active, .classified.ng-move.ng-move-active {
+.classified.ng-enter.ng-enter-active, .classified.ng-move.ng-enter-active {
   opacity: 1;
 }
 
 .classified.ng-leave {
-  animation: 0.4s fade_classified;
+  animation: 0.6s fade_classified;
 }
 
 @keyframes fade_classified {
