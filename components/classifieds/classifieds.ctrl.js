@@ -5,7 +5,6 @@ angular
   .controller('classifiedsCtrl', function($scope, $http, $state, classifiedsFactory, $mdSidenav, $mdToast, $mdDialog) {
     const vm = this;
     vm.openSidebar = openSidebar;
-    vm.closeSidebar = closeSidebar;
     vm.saveClassified = saveClassified;
     vm.editClassified = editClassified;
     vm.saveEdit = saveEdit;
@@ -49,10 +48,6 @@ angular
 
     function openSidebar() {
       $state.go('classifieds.new');
-    }
-
-    function closeSidebar() {
-      return $mdSidenav('left').close();
     }
 
     function saveClassified(classified) {
